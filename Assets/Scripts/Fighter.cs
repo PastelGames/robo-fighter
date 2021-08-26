@@ -57,9 +57,12 @@ public class Fighter : MonoBehaviour
 
     void Move(InputAction movement)
     {
+        //Change the players position.
         float offset = movement.ReadValue<Vector2>().x * movementSpeed;
         float newPercentage = offset + percentageAlongFightArea;
         PositionManager.PositionPlayerAt(newPercentage, this.gameObject);
+
+        //Update the player's walk animation.
     }
 
     void LightAttack()
