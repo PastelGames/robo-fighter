@@ -5,32 +5,34 @@ using UnityEngine.InputSystem;
 
 public class Fighter : MonoBehaviour
 {
-    public AttackData lightAttackData;
-    public AttackData heavyAttackData;
-    public AttackData specialAttackData;
+    public AttackData _lightAttackData;
+    public AttackData _heavyAttackData;
+    public AttackData _specialAttackData;
 
-    public float movementSpeed;
+    public float _movementSpeed;
 
-    private FighterInputActions fighterInputActions;
-    private InputAction movement;
+    private FighterInputActions _fighterInputActions;
+    private InputAction _movement;
 
-    [Range(0, 1)]
-    public float percentageAlongFightArea;
+    public Animator _anim;
+
+    public Rigidbody rb;
 
     private void Awake()
     {
-        fighterInputActions = new FighterInputActions();
+        _fighterInputActions = new FighterInputActions();
+        rb = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
     {
-        movement = fighterInputActions.Player1.Move;
-        movement.Enable();
+        _movement = _fighterInputActions.Player1.Move;
+        _movement.Enable();
     }
 
     private void OnDisable()
     {
-        movement.Disable();
+        _movement.Disable();
     }
 
     // Start is called before the first frame update
@@ -40,9 +42,9 @@ public class Fighter : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        Move(movement);
+        Move(_movement);
     }
 
     void TakeDamage(AttackData ad)
@@ -57,12 +59,15 @@ public class Fighter : MonoBehaviour
 
     void Move(InputAction movement)
     {
-        //Change the players position.
-        float offset = movement.ReadValue<Vector2>().x * movementSpeed;
-        float newPercentage = offset + percentageAlongFightArea;
-        PositionManager.PositionPlayerAt(newPercentage, this.gameObject);
+        float movementInputValue = movement.ReadValue<Vector2>().x;
+
+        //Change the player's velocity.
+        Vector3 newVelocity = new Vector3(0, rb.velocity.y, movementInputValue * _movementSpeed);
+        rb.velocity = newVelocity;
 
         //Update the player's walk animation.
+        _anim.SetFloat("Move", movementInputValue);
+        _anim.SetBool("Moving", movementInputValue != 0);
     }
 
     void LightAttack()
