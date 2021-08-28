@@ -7,8 +7,8 @@ public class Referee : MonoBehaviour
     public GameObject player1GameObject;
     public GameObject player2GameObject;
 
-    private Fighter player1Fighter;
-    private Fighter player2Fighter;
+    private FighterController player1Fighter;
+    private FighterController player2Fighter;
 
     private Rigidbody player1RB;
     private Rigidbody player2RB;
@@ -18,7 +18,7 @@ public class Referee : MonoBehaviour
 
     void Awake()
     {
-        player1Fighter = player1GameObject.GetComponent<Fighter>();
+        player1Fighter = player1GameObject.GetComponent<FighterController>();
         //player2Fighter = player2GameObject.GetComponent<Fighter>();
         player1RB = player1Fighter.rb;
         //player2RB = player2Fighter.rb;
