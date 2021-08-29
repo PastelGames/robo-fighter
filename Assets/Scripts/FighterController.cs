@@ -5,10 +5,6 @@ using UnityEngine.InputSystem;
 
 public class FighterController : MonoBehaviour
 {
-    public AttackData _lightAttackData;
-    public AttackData _heavyAttackData;
-    public AttackData _specialAttackData;
-
     public float _movementSpeed;
 
     public bool canMove;
@@ -17,27 +13,44 @@ public class FighterController : MonoBehaviour
     private InputAction _movement;
     private InputAction _lightAttackInputAction;
     private InputAction _heavyAttackInputAction;
+    private InputActionMap _playerActionMap;
 
-    public Animator _anim;
+    private Animator _anim;
 
-    public Rigidbody rb;
+    private Rigidbody _rb;
+
+    public PlayerSlot _playerSlot;
+
+    private Fighter _fighter;
 
     private void Awake()
     {
         _fighterInputActions = new FighterInputActions();
-        rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
+        _anim = GetComponentInChildren<Animator>();
+        _fighter = GetComponent<Fighter>();
+
+        //Set the controls relative to which player they are.
+        if (_playerSlot == PlayerSlot.Player1)
+        {
+            _playerActionMap = _fighterInputActions.Player1;
+        }
+        else if (_playerSlot == PlayerSlot.Player2)
+        {
+            _playerActionMap = _fighterInputActions.Player2;
+        }
     }
 
     private void OnEnable()
     {
-        _movement = _fighterInputActions.Player1.Move;
+        _movement = _playerActionMap.actions[0];
         _movement.Enable();
 
-        _lightAttackInputAction = _fighterInputActions.Player1.LightAttack;
+        _lightAttackInputAction = _playerActionMap.actions[1];
         _lightAttackInputAction.performed += LightAttack;
         _lightAttackInputAction.Enable();
 
-        _heavyAttackInputAction = _fighterInputActions.Player1.HeavyAttack;
+        _heavyAttackInputAction = _playerActionMap.actions[2];
         _heavyAttackInputAction.performed += HeavyAttack;
         _heavyAttackInputAction.Enable();
     }
@@ -61,16 +74,6 @@ public class FighterController : MonoBehaviour
         Move();
     }
 
-    void TakeDamage(AttackData ad)
-    {
-
-    }
-
-    void DealDamage(AttackData ad)
-    {
-
-    }
-
     void Move()
     {
         float movementInputValue;
@@ -79,8 +82,8 @@ public class FighterController : MonoBehaviour
         else movementInputValue = 0;
         
         //Change the player's velocity.
-        Vector3 newVelocity = new Vector3(0, rb.velocity.y, movementInputValue * _movementSpeed);
-        rb.velocity = newVelocity;
+        Vector3 newVelocity = new Vector3(0, _rb.velocity.y, movementInputValue * _movementSpeed);
+        _rb.velocity = newVelocity;
 
         //Update the player's walk animation.
         _anim.SetFloat("Move", movementInputValue);
@@ -90,6 +93,7 @@ public class FighterController : MonoBehaviour
     void LightAttack(InputAction.CallbackContext obj)
     {
         _anim.SetTrigger("Light Attack");
+        _fighter._currentAttackData = _fighter._lightAttackData;
     }
 
     void HeavyAttack(InputAction.CallbackContext obj)

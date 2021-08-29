@@ -132,22 +132,27 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Light Attack",
+                    "type": "Button",
+                    "id": "5285f261-8b61-45dd-8a31-0dc29d7a434e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Heavy Attack",
+                    "type": "Button",
+                    "id": "719fa244-07e7-45e9-bbdf-34d2e6cce76c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
                 {
-                    "name": "",
-                    "id": "d107806a-f6c9-4035-8e8d-6901a30b9aed",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "WASD",
+                    "name": "IJKL",
                     "id": "c93738b2-314b-48cf-9aa6-af64dfbc5d9f",
                     "path": "Dpad",
                     "interactions": "",
@@ -160,18 +165,7 @@
                 {
                     "name": "left",
                     "id": "384fc196-4f03-4be1-95b0-f91f8a8c016d",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "b458aa5c-ae35-4ba8-99c7-8e8399debcd8",
-                    "path": "<Keyboard>/leftArrow",
+                    "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -182,7 +176,7 @@
                 {
                     "name": "right",
                     "id": "4e99705c-521f-478e-b3d2-daf4452e4151",
-                    "path": "<Keyboard>/d",
+                    "path": "<Keyboard>/l",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -191,15 +185,26 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "right",
-                    "id": "a8b384f6-4852-4af2-bc49-0f8a0a1b4a5c",
-                    "path": "<Keyboard>/rightArrow",
+                    "name": "",
+                    "id": "b88bbb54-a9c8-49b2-81c0-d9f5e186fd6c",
+                    "path": "<Keyboard>/u",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "Move",
+                    "groups": "",
+                    "action": "Light Attack",
                     "isComposite": false,
-                    "isPartOfComposite": true
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bc69ec45-e654-444a-b10b-c9db9636fbfe",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Heavy Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

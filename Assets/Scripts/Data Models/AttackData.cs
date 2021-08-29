@@ -6,8 +6,8 @@ using UnityEngine;
 public class AttackData : ScriptableObject
 {
     public string attackName;
-    public float hitstun;
-    public float blockstun;
+    public int hitstun;
+    public int blockstun;
     public float Damage;
     public AttackType attackType;
 }
