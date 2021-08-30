@@ -4,23 +4,18 @@ using UnityEngine;
 
 public class HurtAnimState : StateMachineBehaviour
 {
-    FighterController _fc;
-    Hurtbox _hurtbox;
-    public int _stunDurationInFrames;
+    Fighter fighter;
+    public int stunDurationInFrames;
 
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //Turn off hitbox.
-        _hurtbox = animator.GetComponentInParent<Fighter>()._hurtbox;
-        _hurtbox.gameObject.SetActive(false);
-
         //Stop the player from moving.
-        _fc = animator.GetComponentInParent<FighterController>();
-        _fc.canMove = false;
+        fighter = animator.GetComponentInParent<Fighter>();
+        fighter.canMove = false;
 
         //Set the length of the hitstun to be desired length.
-        animator.speed = 100f / (float) _stunDurationInFrames;
+        animator.speed = 100f / (float) stunDurationInFrames;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -32,8 +27,7 @@ public class HurtAnimState : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _fc.canMove = true;
-        _hurtbox.gameObject.SetActive(true);
+        fighter.canMove = true;
         animator.speed = 1;
     }
 

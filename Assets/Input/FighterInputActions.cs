@@ -41,6 +41,14 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""4e36dd05-0058-4108-8643-f8aeaec7fd8a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -123,12 +131,45 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""8388b2ae-7192-49c6-96a3-c40af016fb02"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Light Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""832cac93-9434-4406-8214-1b4820300848"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Heavy Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ae16a15e-9a00-4448-bb2e-cf532d6828d8"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Heavy Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""71d23fa7-84d4-4c9a-b55b-e6fbf4269676"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Block"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -158,6 +199,14 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                     ""name"": ""Heavy Attack"",
                     ""type"": ""Button"",
                     ""id"": ""719fa244-07e7-45e9-bbdf-34d2e6cce76c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""7a6d9097-8ef8-4da3-942e-c67d7001431d"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -216,6 +265,17 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Heavy Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""abd2a535-b320-4ffb-a05f-336dd3ee0b99"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Block"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -290,11 +350,13 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
         m_Player1_Move = m_Player1.FindAction("Move", throwIfNotFound: true);
         m_Player1_LightAttack = m_Player1.FindAction("Light Attack", throwIfNotFound: true);
         m_Player1_HeavyAttack = m_Player1.FindAction("Heavy Attack", throwIfNotFound: true);
+        m_Player1_Block = m_Player1.FindAction("Block", throwIfNotFound: true);
         // Player 2
         m_Player2 = asset.FindActionMap("Player 2", throwIfNotFound: true);
         m_Player2_Move = m_Player2.FindAction("Move", throwIfNotFound: true);
         m_Player2_LightAttack = m_Player2.FindAction("Light Attack", throwIfNotFound: true);
         m_Player2_HeavyAttack = m_Player2.FindAction("Heavy Attack", throwIfNotFound: true);
+        m_Player2_Block = m_Player2.FindAction("Block", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -347,6 +409,7 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player1_Move;
     private readonly InputAction m_Player1_LightAttack;
     private readonly InputAction m_Player1_HeavyAttack;
+    private readonly InputAction m_Player1_Block;
     public struct Player1Actions
     {
         private @FighterInputActions m_Wrapper;
@@ -354,6 +417,7 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_Player1_Move;
         public InputAction @LightAttack => m_Wrapper.m_Player1_LightAttack;
         public InputAction @HeavyAttack => m_Wrapper.m_Player1_HeavyAttack;
+        public InputAction @Block => m_Wrapper.m_Player1_Block;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -372,6 +436,9 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                 @HeavyAttack.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnHeavyAttack;
                 @HeavyAttack.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnHeavyAttack;
                 @HeavyAttack.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnHeavyAttack;
+                @Block.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnBlock;
+                @Block.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnBlock;
+                @Block.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnBlock;
             }
             m_Wrapper.m_Player1ActionsCallbackInterface = instance;
             if (instance != null)
@@ -385,6 +452,9 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                 @HeavyAttack.started += instance.OnHeavyAttack;
                 @HeavyAttack.performed += instance.OnHeavyAttack;
                 @HeavyAttack.canceled += instance.OnHeavyAttack;
+                @Block.started += instance.OnBlock;
+                @Block.performed += instance.OnBlock;
+                @Block.canceled += instance.OnBlock;
             }
         }
     }
@@ -396,6 +466,7 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player2_Move;
     private readonly InputAction m_Player2_LightAttack;
     private readonly InputAction m_Player2_HeavyAttack;
+    private readonly InputAction m_Player2_Block;
     public struct Player2Actions
     {
         private @FighterInputActions m_Wrapper;
@@ -403,6 +474,7 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_Player2_Move;
         public InputAction @LightAttack => m_Wrapper.m_Player2_LightAttack;
         public InputAction @HeavyAttack => m_Wrapper.m_Player2_HeavyAttack;
+        public InputAction @Block => m_Wrapper.m_Player2_Block;
         public InputActionMap Get() { return m_Wrapper.m_Player2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -421,6 +493,9 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                 @HeavyAttack.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnHeavyAttack;
                 @HeavyAttack.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnHeavyAttack;
                 @HeavyAttack.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnHeavyAttack;
+                @Block.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnBlock;
+                @Block.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnBlock;
+                @Block.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnBlock;
             }
             m_Wrapper.m_Player2ActionsCallbackInterface = instance;
             if (instance != null)
@@ -434,6 +509,9 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                 @HeavyAttack.started += instance.OnHeavyAttack;
                 @HeavyAttack.performed += instance.OnHeavyAttack;
                 @HeavyAttack.canceled += instance.OnHeavyAttack;
+                @Block.started += instance.OnBlock;
+                @Block.performed += instance.OnBlock;
+                @Block.canceled += instance.OnBlock;
             }
         }
     }
@@ -488,11 +566,13 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnLightAttack(InputAction.CallbackContext context);
         void OnHeavyAttack(InputAction.CallbackContext context);
+        void OnBlock(InputAction.CallbackContext context);
     }
     public interface IPlayer2Actions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnLightAttack(InputAction.CallbackContext context);
         void OnHeavyAttack(InputAction.CallbackContext context);
+        void OnBlock(InputAction.CallbackContext context);
     }
 }

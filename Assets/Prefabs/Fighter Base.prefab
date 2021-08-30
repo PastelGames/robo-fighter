@@ -2117,9 +2117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba5e408a373aa2449bca82abd80091a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementSpeed: 2.5
-  canMove: 1
-  _playerSlot: 0
+  playerSlot: 0
 --- !u!65 &7340470694646391478
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2145,11 +2143,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ae9fdbe58311a4597f8287844f74a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lightAttackData: {fileID: 11400000, guid: 5c79e0f54e1b75048b38d2f693112e06, type: 2}
-  _heavyAttackData: {fileID: 0}
-  _specialAttackData: {fileID: 0}
-  _currentAttackData: {fileID: 0}
-  _startingHP: 20
-  _hitbox: {fileID: 1969531870}
-  _hurtbox: {fileID: 1727217951}
-  animClip: {fileID: 0}
+  _movementSpeed: 2
+  lightAttackData: {fileID: 11400000, guid: 5c79e0f54e1b75048b38d2f693112e06, type: 2}
+  heavyAttackData: {fileID: 11400000, guid: 97685dcbaa6f5a94a9920474b0e857b6, type: 2}
+  specialAttackData: {fileID: 0}
+  startingHP: 25
+  hitbox: {fileID: 1969531870}
+  hurtbox: {fileID: 1727217951}
+  canMove: 1
+  isBlocking: 0

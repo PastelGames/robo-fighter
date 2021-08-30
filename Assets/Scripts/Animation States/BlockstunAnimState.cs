@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackAnimBehavior : StateMachineBehaviour
+public class BlockstunAnimState : StateMachineBehaviour
 {
-
     Fighter fighter;
+    Hurtbox hurtbox;
+    public int stunDurationInFrames;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //Make the player unable to move.
         fighter = animator.GetComponentInParent<Fighter>();
         fighter.canMove = false;
+        fighter.isBlocking = true;
+
+        //Turn off the player's hurtbox.
+        fighter.hurtbox.gameObject.SetActive(false);
+
+        animator.speed = 100f / (float) stunDurationInFrames;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -21,14 +27,12 @@ public class AttackAnimBehavior : StateMachineBehaviour
     //    
     //}
 
-    //OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //Grant the player the ability to move again. 
-        fighter.canMove = true;
-
-        //Turn off the hitbox incase the player gets hit.
-        fighter.hitbox.gameObject.SetActive(false);
+        fighter.hurtbox.gameObject.SetActive(true);
+        animator.speed = 1;
+        fighter.isBlocking = false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

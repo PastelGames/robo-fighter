@@ -471,6 +471,10 @@ PrefabInstance:
       value: Fighter Base (1)
       objectReference: {fileID: 0}
     - target: {fileID: 9200314304847247398, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
+      propertyPath: playerSlot
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9200314304847247398, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
       propertyPath: _playerSlot
       value: 1
       objectReference: {fileID: 0}
@@ -481,6 +485,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9200314304847247397, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
   m_PrefabInstance: {fileID: 9200314303966539841}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1602455653 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 248584620145791626, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
+  m_PrefabInstance: {fileID: 9200314303966539841}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602455652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22ae9fdbe58311a4597f8287844f74a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &9200314303966539841
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -488,6 +503,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1969531870, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
+      propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1969531870, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
+      propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1602455653}
+    - target: {fileID: 1969531870, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
+      propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1969531870, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
+      propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SendHit
+      objectReference: {fileID: 0}
+    - target: {fileID: 1969531870, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
+      propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Fighter, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1969531870, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
+      propertyPath: triggerEnterEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Collider, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 9200314304847080389, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -535,6 +574,26 @@ PrefabInstance:
     - target: {fileID: 9200314304847247397, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
       propertyPath: m_Name
       value: Fighter Base
+      objectReference: {fileID: 0}
+    - target: {fileID: 9200314304847247398, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
+      propertyPath: movementInputAction.m_Id
+      value: 189850aa-649e-4ce5-ab8a-6a44e45b1e0b
+      objectReference: {fileID: 0}
+    - target: {fileID: 9200314304847247398, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
+      propertyPath: movementInputAction.m_Name
+      value: Movement Input
+      objectReference: {fileID: 0}
+    - target: {fileID: 9200314304847247398, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
+      propertyPath: movementInputAction.m_SingletonActionBindings.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9200314304847247398, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
+      propertyPath: movementInputAction.m_SingletonActionBindings.Array.data[0].m_Id
+      value: 8b2f10d7-35e0-4e5a-969f-92e818b5875e
+      objectReference: {fileID: 0}
+    - target: {fileID: 9200314304847247398, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
+      propertyPath: movementInputAction.m_SingletonActionBindings.Array.data[0].m_Action
+      value: Movement Input
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
