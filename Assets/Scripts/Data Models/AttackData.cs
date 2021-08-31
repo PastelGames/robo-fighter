@@ -8,6 +8,6 @@ public class AttackData : ScriptableObject
     public string attackName;
     public int hitstun;
     public int blockstun;
-    public float Damage;
+    public float damage;
     public AttackType attackType;
 }

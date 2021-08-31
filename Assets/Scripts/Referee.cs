@@ -13,6 +13,8 @@ public class Referee : MonoBehaviour
     private Rigidbody player1RB;
     private Rigidbody player2RB;
 
+    public FightUIManager fightUI;
+
     public float fightWidth = 20;
     public float playerStartWidth = 7;
 
@@ -22,6 +24,8 @@ public class Referee : MonoBehaviour
         player2Fighter = player2GameObject.GetComponent<Fighter>();
         player1RB = player1GameObject.GetComponent<Rigidbody>();
         player2RB = player2GameObject.GetComponent<Rigidbody>();
+        fightUI.player1 = player1Fighter;
+        fightUI.player2 = player2Fighter;
     }
 
     // Start is called before the first frame update

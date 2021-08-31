@@ -15,5 +15,5 @@ MonoBehaviour:
   attackName: 
   hitstun: 50
   blockstun: 50
-  Damage: 0
+  damage: 3
   attackType: 1

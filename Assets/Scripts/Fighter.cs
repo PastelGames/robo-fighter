@@ -10,22 +10,29 @@ public class Fighter : MonoBehaviour
     public AttackData lightAttackData;
     public AttackData heavyAttackData;
     public AttackData specialAttackData;
-    private AttackData currentAttackData;
+    public Queue<AttackData> attackQ;
 
-    public int startingHP;
-    private int _currentHP;
+    public float startingHP;
+    public float currentHP;
 
     public Hitbox hitbox;
     public Hurtbox hurtbox;
+
+    public bool hitOtherPlayer;
 
     private Animator anim;
 
     public bool canMove;
     public bool isBlocking;
+    public bool isAttacking;
 
     private FighterController fighterController;
 
     private Rigidbody rb;
+
+    public int currentAttackStringLength;
+
+    private const int MAX_ATTACK_STRING_LENGTH = 3;
 
     private void Awake()
     {
@@ -38,7 +45,8 @@ public class Fighter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _currentHP = startingHP;
+        currentHP = startingHP;
+        attackQ = new Queue<AttackData>(2);
     }
 
     // Update is called once per frame
@@ -47,13 +55,27 @@ public class Fighter : MonoBehaviour
         Move(fighterController.GetMoveValueHorizontal());
     }
 
+    private void Update()
+    {
+        StartAttackString();
+    }
+
     public void SendHit(Collider other)
     {
         if (other.TryGetComponent(out Hurtbox hurtbox))
         {
             if (fighterController.playerSlot != hurtbox.fighterController.playerSlot)
             {
-                hurtbox.fighter.ReceiveHit(currentAttackData);
+                hitOtherPlayer = true;
+
+                hurtbox.fighter.ReceiveHit(attackQ.Dequeue());
+
+                //Cancel
+                if (AttackWaiting() && currentAttackStringLength < MAX_ATTACK_STRING_LENGTH)
+                {
+                    Attack();
+                    currentAttackStringLength++;
+                }
             }
         }
     }
@@ -76,31 +98,60 @@ public class Fighter : MonoBehaviour
         {
             HurtPlayer(attackData);
         }
-
-        //TODO take damage.
     }
 
     private void HurtPlayer(AttackData attackData)
     {
         anim.SetTrigger("Hurt");
         anim.GetBehaviour<HurtAnimState>().stunDurationInFrames = attackData.hitstun;
+        currentHP -= attackData.damage;
     }
 
     public void LightAttack(InputAction.CallbackContext obj)
     {
-        anim.SetTrigger("Light Attack");
-        currentAttackData = lightAttackData;
+        AddToAttackQueue(lightAttackData);
     }
 
     public void HeavyAttack(InputAction.CallbackContext obj)
     {
-        anim.SetTrigger("Heavy Attack");
-        currentAttackData = heavyAttackData;
+        AddToAttackQueue(heavyAttackData);
+    }
+
+    private void AddToAttackQueue(AttackData ad)
+    {
+        if (attackQ.Count < 2) attackQ.Enqueue(ad); 
     }
 
     public void SpecialAttack()
     {
 
+    }
+
+    void StartAttackString()
+    {
+        if (!isAttacking && AttackWaiting())
+        {
+            currentAttackStringLength = 1;
+            Attack();
+        }
+    }
+
+    private bool AttackWaiting()
+    {
+        return attackQ.Count > 0;
+    }
+
+    private void Attack()
+    {
+        switch (attackQ.Peek().attackType)
+        {
+            case AttackType.HeavyAttack:
+                anim.SetTrigger("Heavy Attack");
+                break;
+            case AttackType.LightAttack:
+                anim.SetTrigger("Light Attack");
+                break;
+        }
     }
 
     public void Block(InputAction.CallbackContext obj)

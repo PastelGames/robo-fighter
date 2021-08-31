@@ -13,12 +13,14 @@ public class AttackAnimBehavior : StateMachineBehaviour
         //Make the player unable to move.
         fighter = animator.GetComponentInParent<Fighter>();
         fighter.canMove = false;
+        fighter.isAttacking = true;
+        fighter.hitOtherPlayer = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
-    //    
+        
     //}
 
     //OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -26,6 +28,14 @@ public class AttackAnimBehavior : StateMachineBehaviour
     {
         //Grant the player the ability to move again. 
         fighter.canMove = true;
+        fighter.isAttacking = false;
+
+        //If the player was not hit, it was a whiff and you must clear the attack queue.
+        if (!fighter.hitOtherPlayer)
+        {
+            fighter.attackQ.Clear();
+            Debug.Log("Cleared attack Q");
+        }
 
         //Turn off the hitbox incase the player gets hit.
         fighter.hitbox.gameObject.SetActive(false);

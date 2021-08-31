@@ -19,6 +19,7 @@ public class BlockstunAnimState : StateMachineBehaviour
         fighter.hurtbox.gameObject.SetActive(false);
 
         animator.speed = 100f / (float) stunDurationInFrames;
+        //animator.speed = animator.GetCurrentAnimatorClipInfo(0).Length / (float) stunDurationInFrames;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
