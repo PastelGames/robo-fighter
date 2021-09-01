@@ -5,7 +5,6 @@ using UnityEngine;
 public class HurtAnimState : StateMachineBehaviour
 {
     Fighter fighter;
-    public int stunDurationInFrames;
 
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -13,9 +12,6 @@ public class HurtAnimState : StateMachineBehaviour
         //Stop the player from moving.
         fighter = animator.GetComponentInParent<Fighter>();
         fighter.canMove = false;
-
-        //Set the length of the hitstun to be desired length.
-        animator.speed = 100f / (float) stunDurationInFrames;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

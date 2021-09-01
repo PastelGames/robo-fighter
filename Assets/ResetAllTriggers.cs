@@ -2,21 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockstunAnimState : StateMachineBehaviour
+public class ResetAllTriggers : StateMachineBehaviour
 {
-    Fighter fighter;
-    Hurtbox hurtbox;
-    public int stunDurationInFrames;
-
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        fighter = animator.GetComponentInParent<Fighter>();
-        fighter.canMove = false;
-        fighter.isBlocking = true;
-
-        //Turn off the player's hurtbox.
-        //fighter.hurtbox.gameObject.SetActive(false);
+        ResetAllTrigger(animator);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -26,12 +17,10 @@ public class BlockstunAnimState : StateMachineBehaviour
     //}
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        //fighter.hurtbox.gameObject.SetActive(true);
-        animator.speed = 1;
-        fighter.isBlocking = false;
-    }
+    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+    //    
+    //}
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -44,4 +33,15 @@ public class BlockstunAnimState : StateMachineBehaviour
     //{
     //    // Implement code that sets up animation IK (inverse kinematics)
     //}
+
+    void ResetAllTrigger(Animator anim)
+    {
+        foreach (var param in anim.parameters)
+        {
+            if (param.type == AnimatorControllerParameterType.Trigger)
+            {
+                anim.ResetTrigger(param.name);
+            }
+        }
+    }
 }

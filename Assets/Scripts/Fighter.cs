@@ -87,7 +87,7 @@ public class Fighter : MonoBehaviour
             if (isBlocking)
             {
                 anim.SetTrigger("HitWhileBlocking");
-                anim.GetBehaviour<BlockstunAnimState>().stunDurationInFrames = attackData.blockstun;
+                CustomStateLength.animDurationInFrames = attackData.blockstun;
             }
             else
             {
@@ -103,7 +103,7 @@ public class Fighter : MonoBehaviour
     private void HurtPlayer(AttackData attackData)
     {
         anim.SetTrigger("Hurt");
-        anim.GetBehaviour<HurtAnimState>().stunDurationInFrames = attackData.hitstun;
+        CustomStateLength.animDurationInFrames = attackData.hitstun;
         currentHP -= attackData.damage;
     }
 
