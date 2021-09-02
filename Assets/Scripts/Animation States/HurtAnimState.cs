@@ -25,6 +25,7 @@ public class HurtAnimState : StateMachineBehaviour
     {
         fighter.canMove = true;
         animator.speed = 1;
+        fighter.attackQ.Clear();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

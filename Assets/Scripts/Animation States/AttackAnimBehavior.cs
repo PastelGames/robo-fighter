@@ -34,7 +34,6 @@ public class AttackAnimBehavior : StateMachineBehaviour
         if (!fighter.hitOtherPlayer)
         {
             fighter.attackQ.Clear();
-            Debug.Log("Cleared attack Q");
         }
 
         //Turn off the hitbox incase the player gets hit.

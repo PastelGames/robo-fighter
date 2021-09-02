@@ -26,6 +26,7 @@ public class BlockAnimState : StateMachineBehaviour
     {
         fighter.canMove = true;
         fighter.isBlocking = false;
+        fighter.attackQ.Clear();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

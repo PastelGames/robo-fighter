@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class Fighter : MonoBehaviour
 {
+    public Fighter otherFighter;
+
     public float _movementSpeed;
 
     public AttackData lightAttackData;
@@ -34,6 +36,8 @@ public class Fighter : MonoBehaviour
 
     private const int MAX_ATTACK_STRING_LENGTH = 3;
 
+    bool isFacingLeft;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -58,6 +62,8 @@ public class Fighter : MonoBehaviour
     private void Update()
     {
         StartAttackString();
+        SetFacing();
+        Face();
     }
 
     public void SendHit(Collider other)
@@ -164,6 +170,30 @@ public class Fighter : MonoBehaviour
         anim.SetBool("Block", false);
     }
 
+    void Face()
+    {
+        if (isFacingLeft)
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(0, -180, 0));
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(Vector3.zero);
+        }
+    }
+
+    void SetFacing()
+    {
+        if (transform.position.z < otherFighter.transform.position.z)
+        {
+            isFacingLeft = false;
+        }
+        else
+        {
+            isFacingLeft = true;
+        }
+    }
+
     public void Move(float movementInputValue)
     {
 
@@ -174,7 +204,14 @@ public class Fighter : MonoBehaviour
         rb.velocity = newVelocity;
 
         //Update the player's walk animation.
-        anim.SetFloat("Move", movementInputValue);
+        if (isFacingLeft)
+        {
+            anim.SetFloat("Move", movementInputValue * -1);
+        }
+        else
+        {
+            anim.SetFloat("Move", movementInputValue);
+        }
         anim.SetBool("Moving", movementInputValue != 0);
     }
 }

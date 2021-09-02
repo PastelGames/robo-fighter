@@ -26,6 +26,8 @@ public class Referee : MonoBehaviour
         player2RB = player2GameObject.GetComponent<Rigidbody>();
         fightUI.player1 = player1Fighter;
         fightUI.player2 = player2Fighter;
+        player1Fighter.otherFighter = player2Fighter;
+        player2Fighter.otherFighter = player1Fighter;
     }
 
     // Start is called before the first frame update
