@@ -153,6 +153,7 @@ public class Fighter : MonoBehaviour
         {
             case AttackType.HeavyAttack:
                 anim.SetTrigger("Heavy Attack");
+                rb.velocity += transform.forward * 1;
                 break;
             case AttackType.LightAttack:
                 anim.SetTrigger("Light Attack");
@@ -196,11 +197,16 @@ public class Fighter : MonoBehaviour
 
     public void Move(float movementInputValue)
     {
+        Vector3 newVelocity;
 
-        if (!canMove) movementInputValue = 0;
+        if (!canMove)
+        {
+            movementInputValue = 0;
+        }
 
         //Change the player's velocity.
-        Vector3 newVelocity = new Vector3(0, rb.velocity.y, movementInputValue * _movementSpeed);
+        newVelocity = new Vector3(0, rb.velocity.y, movementInputValue * _movementSpeed);
+        
         rb.velocity = newVelocity;
 
         //Update the player's walk animation.
