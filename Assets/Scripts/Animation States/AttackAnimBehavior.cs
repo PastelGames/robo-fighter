@@ -12,7 +12,7 @@ public class AttackAnimBehavior : StateMachineBehaviour
     {
         //Make the player unable to move.
         fighter = animator.GetComponentInParent<Fighter>();
-        fighter.canMove = false;
+        fighter.Halt();
         fighter.isAttacking = true;
         fighter.hitOtherPlayer = false;
     }

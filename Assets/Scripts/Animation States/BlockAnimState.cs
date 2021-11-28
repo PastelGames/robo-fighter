@@ -11,7 +11,7 @@ public class BlockAnimState : StateMachineBehaviour
     {
         //Lock the player's movement while they are blocking.
         fighter = animator.GetComponentInParent<Fighter>();
-        fighter.canMove = false;
+        fighter.Halt();
         fighter.isBlocking = true;
     }
 

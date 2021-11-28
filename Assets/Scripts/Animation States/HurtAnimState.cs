@@ -11,7 +11,7 @@ public class HurtAnimState : StateMachineBehaviour
     {
         //Stop the player from moving.
         fighter = animator.GetComponentInParent<Fighter>();
-        fighter.canMove = false;
+        fighter.Halt();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

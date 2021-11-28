@@ -12,7 +12,7 @@ public class BlockstunAnimState : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         fighter = animator.GetComponentInParent<Fighter>();
-        fighter.canMove = false;
+        fighter.Halt();
         fighter.isBlocking = true;
 
         //Turn off the player's hurtbox.

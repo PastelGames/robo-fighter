@@ -42,7 +42,7 @@ public class Fighter : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         hitbox.triggerEnterEvent.AddListener(SendHit);
-        anim = GetComponentInChildren<Animator>();
+        anim = GetComponent<Animator>();
         fighterController = GetComponent<FighterController>();
     }
 
@@ -64,6 +64,12 @@ public class Fighter : MonoBehaviour
         StartAttackString();
         SetFacing();
         Face();
+    }
+
+    public void Halt()
+    {
+        canMove = false;
+        rb.velocity = new Vector3(0, rb.velocity.y, 0);
     }
 
     public void SendHit(Collider other)
@@ -153,7 +159,6 @@ public class Fighter : MonoBehaviour
         {
             case AttackType.HeavyAttack:
                 anim.SetTrigger("Heavy Attack");
-                rb.velocity += transform.forward * 1;
                 break;
             case AttackType.LightAttack:
                 anim.SetTrigger("Light Attack");
@@ -197,17 +202,11 @@ public class Fighter : MonoBehaviour
 
     public void Move(float movementInputValue)
     {
-        Vector3 newVelocity;
-
-        if (!canMove)
+        if (canMove)
         {
-            movementInputValue = 0;
+            //Change the player's velocity.
+            rb.velocity = new Vector3(0, rb.velocity.y, movementInputValue * _movementSpeed);
         }
-
-        //Change the player's velocity.
-        newVelocity = new Vector3(0, rb.velocity.y, movementInputValue * _movementSpeed);
-        
-        rb.velocity = newVelocity;
 
         //Update the player's walk animation.
         if (isFacingLeft)
@@ -219,5 +218,15 @@ public class Fighter : MonoBehaviour
             anim.SetFloat("Move", movementInputValue);
         }
         anim.SetBool("Moving", movementInputValue != 0);
+    }
+
+    public void SetVelocityZ(float z)
+    {
+        rb.velocity = new Vector3(0, rb.velocity.y, isFacingLeft ? -z : z);
+    }
+
+    public void SetVelocityY(float y)
+    {
+        rb.velocity = new Vector3(0, y, rb.velocity.z);
     }
 }
