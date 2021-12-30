@@ -24,6 +24,8 @@ public class Fighter : MonoBehaviour
 
     private Animator anim;
 
+    public AnimationCurve curve;
+
     public bool canMove;
     public bool isBlocking;
     public bool isAttacking;

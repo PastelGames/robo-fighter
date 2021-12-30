@@ -284,7 +284,7 @@ MonoBehaviour:
   targetScreenSize:
     width: 1920
     height: 1080
-  screenScaleFactor: 3
+  screenScaleFactor: 5
   display: {fileID: 1568580850}
 --- !u!1 &989014290
 GameObject:
@@ -1429,18 +1429,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2888249189860809531, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7340470694646391478, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
-      propertyPath: m_Size.y
-      value: 1.7292656
-      objectReference: {fileID: 0}
-    - target: {fileID: 7340470694646391478, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
-      propertyPath: m_Center.y
-      value: 0.830478
-      objectReference: {fileID: 0}
     - target: {fileID: 9200314304847080389, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1488,10 +1476,6 @@ PrefabInstance:
     - target: {fileID: 9200314304847247397, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
       propertyPath: m_Name
       value: Fighter Base
-      objectReference: {fileID: 0}
-    - target: {fileID: 9200314304847247397, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
