@@ -45,43 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 9500000}
-  showItem: {fileID: 0}
-  guiControls: {fileID: 0}
-  rb: {fileID: 0}
-  charState: 0
-  animationSpeed: 1
-  hatchet: {fileID: 0}
-  hammer: {fileID: 0}
-  fishingpole: {fileID: 0}
-  shovel: {fileID: 0}
-  box: {fileID: 0}
-  food: {fileID: 0}
-  drink: {fileID: 0}
-  saw: {fileID: 0}
-  pickaxe: {fileID: 0}
-  sickle: {fileID: 0}
-  rake: {fileID: 0}
-  chair: {fileID: 0}
-  ladder: {fileID: 0}
-  lumber: {fileID: 0}
-  pushpull: {fileID: 0}
-  sphere: {fileID: 0}
-  cart: {fileID: 0}
-  paintbrush: {fileID: 0}
-  spear: {fileID: 0}
-  isMoving: 0
-  isLocked: 0
-  isGrounded: 0
-  isSpearfishing: 0
-  rotationSpeed: 10
-  runSpeed: 8
-  walkSpeed: 4
-  spearfishingSpeed: 1.25
-  crawlSpeed: 1
-  useNavMeshNavigation: 0
-  crafterNavigation: {fileID: 0}
-  navMeshNavigation: 0
-  navMeshRun: 0
 --- !u!1 &100002
 GameObject:
   m_ObjectHideFlags: 0

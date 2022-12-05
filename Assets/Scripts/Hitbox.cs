@@ -5,9 +5,9 @@ using UnityEngine.Events;
 
 public class Hitbox : MonoBehaviour
 {
-    public UnityEvent<Collider> triggerEnterEvent;
+    public UnityEvent<Collider2D> triggerEnterEvent;
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         triggerEnterEvent.Invoke(other);
     }

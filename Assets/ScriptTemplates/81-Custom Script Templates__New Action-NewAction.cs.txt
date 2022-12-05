@@ -1,0 +1,10 @@
+using UnityEngine;
+
+[CreateAssetMenu (menuName = "PluggableSM/Actions/-")]
+public class #SCRIPTNAME# : Action
+{
+    public override void Act(StateController controller)
+    {
+        #NOTRIM#
+    }
+}

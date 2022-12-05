@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ba51943f841c44498a613868b45772, type: 3}
+  m_Name: Heavy Attack Action
+  m_EditorClassIdentifier: 
+  _idleState: {fileID: 11400000, guid: 0e4ed61ab66c79643959596acc7b2ea7, type: 2}
+  _attackData:
+  - {fileID: 11400000, guid: 97685dcbaa6f5a94a9920474b0e857b6, type: 2}
+  - {fileID: 11400000, guid: 1bfe165b6081d5a46b4bcb2dea7529d7, type: 2}
+  - {fileID: 11400000, guid: 11300c9a1eef4214ea5fdb0d7674861f, type: 2}

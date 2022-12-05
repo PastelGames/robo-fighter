@@ -36,6 +36,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Special Attack",
+                    "type": "Button",
+                    "id": "0f89ee95-6c4d-4330-afce-1c45660b27fa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -159,6 +167,28 @@
                     "action": "Block",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "72491510-634c-4014-be62-84fd88cf4520",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Special Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "79db9ff2-5388-4013-870f-94e9a122c5f2",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Special Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -194,6 +224,14 @@
                     "name": "Block",
                     "type": "Button",
                     "id": "7a6d9097-8ef8-4da3-942e-c67d7001431d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Special Attack",
+                    "type": "Button",
+                    "id": "468c6233-f453-4559-9bfa-570031584945",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -263,6 +301,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Block",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "878709bd-1599-4d7b-8cf2-8d1bd04f7a75",
+                    "path": "<Keyboard>/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Special Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

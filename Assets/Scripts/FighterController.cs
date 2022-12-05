@@ -9,7 +9,8 @@ public class FighterController : MonoBehaviour
     private InputAction movementInputAction;
     private InputAction _lightAttackInputAction;
     private InputAction _heavyAttackInputAction;
-    private InputAction _blockInputAction;
+    private InputAction _specialAttackInputAction;
+    [HideInInspector] public InputAction blockInputAction;
     private InputActionMap _playerActionMap;
 
     public PlayerSlot playerSlot;
@@ -38,17 +39,19 @@ public class FighterController : MonoBehaviour
         movementInputAction.Enable();
 
         _lightAttackInputAction = _playerActionMap.actions[1];
-        _lightAttackInputAction.performed += _fighter.LightAttack;
+        _lightAttackInputAction.started += _fighter.LightAttack;
         _lightAttackInputAction.Enable();
 
         _heavyAttackInputAction = _playerActionMap.actions[2];
-        _heavyAttackInputAction.performed += _fighter.HeavyAttack;
+        _heavyAttackInputAction.started += _fighter.HeavyAttack;
         _heavyAttackInputAction.Enable();
 
-        _blockInputAction = _playerActionMap.actions[3];
-        _blockInputAction.performed += _fighter.Block;
-        _blockInputAction.canceled += _fighter.Unblock;
-        _blockInputAction.Enable();
+        blockInputAction = _playerActionMap.actions[3];
+        blockInputAction.Enable();
+
+        _specialAttackInputAction = _playerActionMap.actions[4];
+        _specialAttackInputAction.started += _fighter.SpecialAttack;
+        _specialAttackInputAction.Enable();
     }
 
     private void OnDisable()
@@ -56,7 +59,7 @@ public class FighterController : MonoBehaviour
         movementInputAction.Disable();
         _lightAttackInputAction.Disable();
         _heavyAttackInputAction.Disable();
-        _blockInputAction.Disable();
+        blockInputAction.Disable();
     }
 
     public float GetMoveValueHorizontal()

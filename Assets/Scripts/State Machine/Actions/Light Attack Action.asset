@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ba51943f841c44498a613868b45772, type: 3}
+  m_Name: Light Attack Action
+  m_EditorClassIdentifier: 
+  _idleState: {fileID: 11400000, guid: 0e4ed61ab66c79643959596acc7b2ea7, type: 2}
+  _attackData:
+  - {fileID: 11400000, guid: 5c79e0f54e1b75048b38d2f693112e06, type: 2}
+  - {fileID: 11400000, guid: e1d9dece52d2d404990e8ee1a87ccc09, type: 2}
+  - {fileID: 11400000, guid: 50a53cdaf41c13748b6b7cc378cc8cc9, type: 2}

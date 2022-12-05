@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e09e8294edf4ee94a9f74bd65002735c, type: 3}
+  m_Name: Block Hit React Action
+  m_EditorClassIdentifier: 
+  _blockHitReactAnimationClip: {fileID: 7400000, guid: 9dbaab80963b4ca41916899e980cea34, type: 2}
+  _blockState: {fileID: 11400000, guid: 059681bd5084a724dbd23cde4cdd59d8, type: 2}

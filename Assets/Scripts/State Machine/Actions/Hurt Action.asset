@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c14c50e236272c46b149cb8ecc53e30, type: 3}
+  m_Name: Hurt Action
+  m_EditorClassIdentifier: 
+  _lightHurtAnimClip: {fileID: 7400000, guid: d25f43acbf08971468b2d8985628473e, type: 2}
+  _heavyHurtAnimClip: {fileID: 7400000, guid: 509cbb1ab1c02a04f8c97ac507169c4c, type: 2}

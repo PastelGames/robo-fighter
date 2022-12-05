@@ -1,124 +1,271 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Animancer;
 
-public class Fighter : MonoBehaviour
+public class Fighter : StateController
 {
     public Fighter otherFighter;
 
-    public float _movementSpeed;
+    public float movementSpeed;
+    public float forwardMoveSpeedMultiplier;
 
     public AttackData lightAttackData;
     public AttackData heavyAttackData;
     public AttackData specialAttackData;
     public Queue<AttackData> attackQ;
 
-    public float startingHP;
-    public float currentHP;
+    public int startingHP;
+    public int currentHP;
 
-    public Hitbox hitbox;
-    public Hurtbox hurtbox;
+    public TMP_Text takqtext; //DEBUG
 
-    public bool hitOtherPlayer;
-
-    private Animator anim;
-
-    public AnimationCurve curve;
-
-    public bool canMove;
-    public bool isBlocking;
-    public bool isAttacking;
+    protected Hitbox hitbox;
+    protected Hurtbox hurtbox;
 
     private FighterController fighterController;
 
-    private Rigidbody rb;
+    public int currentAttackStringLength = 0;
 
-    public int currentAttackStringLength;
+    public int maxAttackStringLength = 3;
 
-    private const int MAX_ATTACK_STRING_LENGTH = 3;
+    [HideInInspector] public bool newIsFacingLeft;
+    [HideInInspector] public bool isFacingLeft;
 
-    bool isFacingLeft;
+    public HitData currentHitData;
+    public AttackData currentAttackData;
 
-    private void Awake()
+    public AttackData currentHurtAttackData;
+
+    public Queue<AnimationClip> animationQ;
+    public AnimationClip currentAnimation;
+
+    public State lightAttackState;
+    public State heavyAttackState;
+    public State specialAttackState;
+    public State idleState;
+    public State blockingState;
+    public State blockHitReactState;
+    public State hurtState;
+
+    public bool hitOtherPlayer;
+
+    public bool canceledAttack;
+
+    public bool wasHurt;
+
+    public bool wasHitWhileBlocking;
+
+    public bool isHitStopped;
+
+    public float specialAttackCooldownRemaining = 0;
+
+    public float specialAttackCooldownDuration;
+
+    public GameObject hurtParticles;
+    public GameObject heavyHurtParticles;
+    public GameObject hurtParticleOrigin;
+
+    public GameObject specialAttackParticles;
+
+    [HideInInspector]
+    public int roundsWon = 0;
+
+    private FightCamera _fightCamera;
+
+    public int comboHitCount;
+
+    [SerializeField] private AnimationClip _idleAnimationClip;
+
+    protected override void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        base.Awake();
+        hitbox = GetComponentInChildren<Hitbox>(true);
+        hurtbox = GetComponentInChildren<Hurtbox>(true);
+
         hitbox.triggerEnterEvent.AddListener(SendHit);
-        anim = GetComponent<Animator>();
         fighterController = GetComponent<FighterController>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
         currentHP = startingHP;
-        attackQ = new Queue<AttackData>(2);
+        attackQ = new Queue<AttackData>();
+        _fightCamera = FindObjectOfType<FightCamera>();
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    protected override void FixedUpdate()
     {
-        Move(fighterController.GetMoveValueHorizontal());
-    }
-
-    private void Update()
-    {
-        StartAttackString();
+        base.FixedUpdate();
+        string takqstring = "Attack Q: \n";
+        foreach (AttackData attackData in attackQ)
+        {
+            takqstring += attackData.name + "\n";
+        }
+        takqtext.text = takqstring;
         SetFacing();
         Face();
+        DecrementCooldown();
     }
 
-    public void Halt()
+    public void BeginSpecialAttackCooldown()
     {
-        canMove = false;
-        rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        specialAttackCooldownRemaining = specialAttackCooldownDuration;
     }
 
-    public void SendHit(Collider other)
+    public void PlaySpecialAttackParticles()
     {
-        if (other.TryGetComponent(out Hurtbox hurtbox))
+        ParticleSystem[] specialAttackParticleSystems
+                = specialAttackParticles.GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem ps in specialAttackParticleSystems)
         {
-            if (fighterController.playerSlot != hurtbox.fighterController.playerSlot)
-            {
-                hitOtherPlayer = true;
-
-                hurtbox.fighter.ReceiveHit(attackQ.Dequeue());
-
-                //Cancel
-                if (AttackWaiting() && currentAttackStringLength < MAX_ATTACK_STRING_LENGTH)
-                {
-                    Attack();
-                    currentAttackStringLength++;
-                }
-            }
+            ps.Play();
+        }
+    }
+    public void StopSpecialAttackParticles()
+    {
+        ParticleSystem[] specialAttackParticleSystems
+                = specialAttackParticles.GetComponentsInChildren<ParticleSystem>();
+        foreach (ParticleSystem ps in specialAttackParticleSystems)
+        {
+            ps.Stop();
         }
     }
 
-    void ReceiveHit(AttackData attackData)
-    { 
-        if (attackData.attackType == AttackType.LightAttack)
+    private void DecrementCooldown()
+    {
+        if (specialAttackCooldownRemaining > 0)
         {
-            if (isBlocking)
+            specialAttackCooldownRemaining -= Time.deltaTime;
+        }
+    }
+
+    public void SendHit(Collider2D other)
+    {
+        if (!hitOtherPlayer 
+            && other.TryGetComponent(out Hurtbox otherPlayerHurtbox)
+            && fighterController.playerSlot != otherPlayerHurtbox.fighterController.playerSlot)
+        {
+            hitOtherPlayer = true;
+            otherPlayerHurtbox.fighter.ReceiveHit(currentHitData, currentAttackData);
+            hitbox.gameObject.SetActive(false);
+            StartCoroutine(HitStopCoroutine(currentHitData.hitStop));
+        }
+    }
+
+    IEnumerator HitStopCoroutine(int hitStopFrames)
+    {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Static;
+        AnimancerComponent animancerComponent = GetComponent<AnimancerComponent>();
+        animancerComponent.Playable.Speed = 0;
+        isHitStopped = true;
+        while (hitStopFrames > 0)
+        {
+            hitStopFrames--;
+            yield return new WaitForFixedUpdate();
+        }
+        isHitStopped = false;
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        animancerComponent.Playable.Speed = 1;
+    }
+
+    IEnumerator HitStopCoroutine(int hitStopFrames, float pushBack)
+    {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Static;
+        AnimancerComponent animancerComponent = GetComponent<AnimancerComponent>();
+        animancerComponent.Playable.Speed = 0;
+        isHitStopped = true;
+        while (hitStopFrames > 0)
+        {
+            hitStopFrames--;
+            yield return new WaitForFixedUpdate();
+        }
+        isHitStopped = false;
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        animancerComponent.Playable.Speed = 1;
+        Pushback(pushBack);
+    }
+
+    void ReceiveHit(HitData hitData, AttackData attackData)
+    {
+        currentHurtAttackData = attackData;
+        if (attackData.attackType == AttackType.LightAttack
+            || attackData.attackType == AttackType.SpecialAttack)
+        {
+            if (currentState == blockingState
+                || currentState == blockHitReactState)
             {
-                anim.SetTrigger("HitWhileBlocking");
-                CustomStateLength.animDurationInFrames = attackData.blockstun;
+                OnHitWhileBlocking();
+                StartCoroutine(HitStopCoroutine(hitData.hitStop / 3, hitData.pushBack));
+
             }
             else
             {
-                HurtPlayer(attackData);
+                ShowHurtParticles();
+                HurtPlayer(hitData);
+                StartCoroutine(HitStopCoroutine(hitData.hitStop, hitData.pushBack));
             }
         }
         else if (attackData.attackType == AttackType.HeavyAttack)
         {
-            HurtPlayer(attackData);
+            ShowHeavyHurtParticles();
+            StartCoroutine(_fightCamera.Shake(hitData.hitStop, .05f));
+            HurtPlayer(hitData);
+            StartCoroutine(HitStopCoroutine(hitData.hitStop, hitData.pushBack));
         }
     }
 
-    private void HurtPlayer(AttackData attackData)
+    private void Pushback(float pushBack)
     {
-        anim.SetTrigger("Hurt");
-        CustomStateLength.animDurationInFrames = attackData.hitstun;
-        currentHP -= attackData.damage;
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        Vector2 force;
+        if (isFacingLeft)
+        {
+            force = new Vector2(pushBack, 0);
+        }
+        else
+        {
+            force = new Vector2(-pushBack, 0);
+        }
+        rb.AddForce(force);
+    }
+
+    private void OnHitWhileBlocking()
+    {
+        wasHitWhileBlocking = true;
+    }
+
+    public void ShowHeavyHurtParticles()
+    {
+        Instantiate(heavyHurtParticles, hurtParticleOrigin.transform);
+    }
+
+    public void ShowHurtParticles()
+    {
+        Instantiate(hurtParticles, hurtParticleOrigin.transform);
+    }
+
+    public void Reset()
+    {
+        StopAllCoroutines();
+        currentHP = startingHP;
+        specialAttackCooldownRemaining = 0;
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        AnimancerComponent animancerComponent = GetComponent<AnimancerComponent>();
+        animancerComponent.Play(_idleAnimationClip, 0);
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        animancerComponent.Playable.Speed = 1;
+        rb.velocity = Vector2.zero;
+        TransitionToState(idleState);
+        ClearAttackQ();
+        ExitActiveFrames();
+    }
+
+    private void HurtPlayer(HitData hitData)
+    {
+        comboHitCount++;
+        currentHP = Mathf.Clamp(currentHP - hitData.damage, 0, startingHP);
+        wasHurt = true;
     }
 
     public void LightAttack(InputAction.CallbackContext obj)
@@ -131,104 +278,95 @@ public class Fighter : MonoBehaviour
         AddToAttackQueue(heavyAttackData);
     }
 
+    public void ClearAttackQ()
+    {
+        attackQ.Clear();
+    }
+
+    public void CancelCheck()
+    {
+        if (AttackWaiting()
+            && currentAttackData.attackType != AttackType.SpecialAttack
+            && hitOtherPlayer
+            && currentAttackStringLength < maxAttackStringLength 
+            && !canceledAttack
+            && !isHitStopped)
+        {
+            canceledAttack = true;
+            
+            if (attackQ.Peek().attackType == AttackType.LightAttack)
+            {
+                TransitionToState(lightAttackState);
+            }
+            else if (attackQ.Peek().attackType == AttackType.HeavyAttack)
+            {
+                TransitionToState(heavyAttackState);
+            }
+            else if (attackQ.Peek().attackType == AttackType.SpecialAttack)
+            {
+                TransitionToState(specialAttackState);
+            }
+        }
+    }
+
+    public void BeginActiveFrames(HitData hitData)
+    {
+        hitbox.gameObject.SetActive(true);
+        currentHitData = hitData;
+        canceledAttack = false;
+        hitOtherPlayer = false;
+    }
+
+    public void ExitActiveFrames()
+    {
+        hitbox.gameObject.SetActive(false);
+        currentHitData = null;
+        hitOtherPlayer = false;
+    }
+
     private void AddToAttackQueue(AttackData ad)
     {
         if (attackQ.Count < 2) attackQ.Enqueue(ad); 
     }
 
-    public void SpecialAttack()
+    public void SpecialAttack(InputAction.CallbackContext obj)
     {
-
-    }
-
-    void StartAttackString()
-    {
-        if (!isAttacking && AttackWaiting())
+        if (specialAttackCooldownRemaining <= 0)
         {
-            currentAttackStringLength = 1;
-            Attack();
+            AddToAttackQueue(specialAttackData);
         }
     }
 
-    private bool AttackWaiting()
+    public bool AttackWaiting()
     {
         return attackQ.Count > 0;
     }
 
-    private void Attack()
-    {
-        switch (attackQ.Peek().attackType)
-        {
-            case AttackType.HeavyAttack:
-                anim.SetTrigger("Heavy Attack");
-                break;
-            case AttackType.LightAttack:
-                anim.SetTrigger("Light Attack");
-                break;
-        }
-    }
-
-    public void Block(InputAction.CallbackContext obj)
-    {
-        anim.SetBool("Block", true);
-    }
-
-    public void Unblock(InputAction.CallbackContext obj)
-    {
-        anim.SetBool("Block", false);
-    }
-
     void Face()
     {
-        if (isFacingLeft)
+        if (newIsFacingLeft != isFacingLeft)
         {
-            transform.rotation = Quaternion.Euler(new Vector3(0, -180, 0));
+            if (newIsFacingLeft)
+            {
+                transform.rotation = Quaternion.Euler(new Vector3(0, -180, 0));
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(Vector3.zero);
+            }
         }
-        else
-        {
-            transform.rotation = Quaternion.Euler(Vector3.zero);
-        }
+        isFacingLeft = newIsFacingLeft;
     }
 
     void SetFacing()
     {
-        if (transform.position.z < otherFighter.transform.position.z)
+        if (transform.position.x < otherFighter.transform.position.x)
         {
-            isFacingLeft = false;
+            newIsFacingLeft = false;
         }
         else
         {
-            isFacingLeft = true;
+            newIsFacingLeft = true;
         }
-    }
-
-    public void Move(float movementInputValue)
-    {
-        if (canMove)
-        {
-            //Change the player's velocity.
-            rb.velocity = new Vector3(0, rb.velocity.y, movementInputValue * _movementSpeed);
-        }
-
-        //Update the player's walk animation.
-        if (isFacingLeft)
-        {
-            anim.SetFloat("Move", movementInputValue * -1);
-        }
-        else
-        {
-            anim.SetFloat("Move", movementInputValue);
-        }
-        anim.SetBool("Moving", movementInputValue != 0);
-    }
-
-    public void SetVelocityZ(float z)
-    {
-        rb.velocity = new Vector3(0, rb.velocity.y, isFacingLeft ? -z : z);
-    }
-
-    public void SetVelocityY(float y)
-    {
-        rb.velocity = new Vector3(0, y, rb.velocity.z);
     }
 }
