@@ -278,6 +278,11 @@ public class Fighter : StateController
         AddToAttackQueue(heavyAttackData);
     }
 
+    public void Jump(InputAction.CallbackContext obj)
+    {
+        
+    }
+
     public void ClearAttackQ()
     {
         attackQ.Clear();
