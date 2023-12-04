@@ -57,6 +57,14 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""1129f2e7-08f4-4c5a-8189-8fe6b38e081a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -173,7 +181,7 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""71d23fa7-84d4-4c9a-b55b-e6fbf4269676"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
@@ -200,6 +208,17 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Special Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""42a0214f-3a59-42d2-ae15-4e289370542a"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -245,6 +264,14 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                     ""name"": ""Special Attack"",
                     ""type"": ""Button"",
                     ""id"": ""468c6233-f453-4559-9bfa-570031584945"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""4b2980c1-98c3-4c40-8a25-97679f732c4a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -309,7 +336,7 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""abd2a535-b320-4ffb-a05f-336dd3ee0b99"",
-                    ""path"": ""<Keyboard>/i"",
+                    ""path"": ""<Keyboard>/h"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
@@ -325,6 +352,17 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Special Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""096784d8-f0c4-40dd-a603-67258da95fe9"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -401,6 +439,7 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
         m_Player1_HeavyAttack = m_Player1.FindAction("Heavy Attack", throwIfNotFound: true);
         m_Player1_Block = m_Player1.FindAction("Block", throwIfNotFound: true);
         m_Player1_SpecialAttack = m_Player1.FindAction("Special Attack", throwIfNotFound: true);
+        m_Player1_Jump = m_Player1.FindAction("Jump", throwIfNotFound: true);
         // Player 2
         m_Player2 = asset.FindActionMap("Player 2", throwIfNotFound: true);
         m_Player2_Move = m_Player2.FindAction("Move", throwIfNotFound: true);
@@ -408,6 +447,7 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
         m_Player2_HeavyAttack = m_Player2.FindAction("Heavy Attack", throwIfNotFound: true);
         m_Player2_Block = m_Player2.FindAction("Block", throwIfNotFound: true);
         m_Player2_SpecialAttack = m_Player2.FindAction("Special Attack", throwIfNotFound: true);
+        m_Player2_Jump = m_Player2.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -462,6 +502,7 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player1_HeavyAttack;
     private readonly InputAction m_Player1_Block;
     private readonly InputAction m_Player1_SpecialAttack;
+    private readonly InputAction m_Player1_Jump;
     public struct Player1Actions
     {
         private @FighterInputActions m_Wrapper;
@@ -471,6 +512,7 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
         public InputAction @HeavyAttack => m_Wrapper.m_Player1_HeavyAttack;
         public InputAction @Block => m_Wrapper.m_Player1_Block;
         public InputAction @SpecialAttack => m_Wrapper.m_Player1_SpecialAttack;
+        public InputAction @Jump => m_Wrapper.m_Player1_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Player1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -495,6 +537,9 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                 @SpecialAttack.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnSpecialAttack;
                 @SpecialAttack.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnSpecialAttack;
                 @SpecialAttack.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnSpecialAttack;
+                @Jump.started -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_Player1ActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_Player1ActionsCallbackInterface = instance;
             if (instance != null)
@@ -514,6 +559,9 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                 @SpecialAttack.started += instance.OnSpecialAttack;
                 @SpecialAttack.performed += instance.OnSpecialAttack;
                 @SpecialAttack.canceled += instance.OnSpecialAttack;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -527,6 +575,7 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player2_HeavyAttack;
     private readonly InputAction m_Player2_Block;
     private readonly InputAction m_Player2_SpecialAttack;
+    private readonly InputAction m_Player2_Jump;
     public struct Player2Actions
     {
         private @FighterInputActions m_Wrapper;
@@ -536,6 +585,7 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
         public InputAction @HeavyAttack => m_Wrapper.m_Player2_HeavyAttack;
         public InputAction @Block => m_Wrapper.m_Player2_Block;
         public InputAction @SpecialAttack => m_Wrapper.m_Player2_SpecialAttack;
+        public InputAction @Jump => m_Wrapper.m_Player2_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Player2; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -560,6 +610,9 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                 @SpecialAttack.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnSpecialAttack;
                 @SpecialAttack.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnSpecialAttack;
                 @SpecialAttack.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnSpecialAttack;
+                @Jump.started -= m_Wrapper.m_Player2ActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_Player2ActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_Player2ActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_Player2ActionsCallbackInterface = instance;
             if (instance != null)
@@ -579,6 +632,9 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
                 @SpecialAttack.started += instance.OnSpecialAttack;
                 @SpecialAttack.performed += instance.OnSpecialAttack;
                 @SpecialAttack.canceled += instance.OnSpecialAttack;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -635,6 +691,7 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
         void OnHeavyAttack(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
         void OnSpecialAttack(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
     public interface IPlayer2Actions
     {
@@ -643,5 +700,6 @@ public class @FighterInputActions : IInputActionCollection, IDisposable
         void OnHeavyAttack(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
         void OnSpecialAttack(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }
