@@ -14,7 +14,6 @@ public class IdleAction : Action
 
     public override void EndAct(StateController controller)
     {
-
     }
 
     public override void StartAct(StateController controller)

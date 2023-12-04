@@ -30,7 +30,7 @@ public class FightCamera : MonoBehaviour
     {
         if (targets.Count == 0) return;
         MoveCamera();
-        Zoom();
+        //Zoom();
     }
 
     public IEnumerator Shake(int durationInFrames, float magnitude)
@@ -55,7 +55,7 @@ public class FightCamera : MonoBehaviour
     void Zoom()
     {
         float newZoom = Mathf.Lerp(minZoom, maxZoom, GetGreatestDistance() / zoomLimiter);
-        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime * cameraZoomLerpSpeed);
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, newZoom, Time.deltaTime * cameraZoomLerpSpeed);
     }
 
     float GetGreatestDistance()
