@@ -4005,7 +4005,7 @@ GameObject:
   - component: {fileID: 974361345}
   m_Layer: 0
   m_Name: 2D Ground
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4026,7 +4026,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8788f2c57f85c3a42b174c8bf879ed25, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -12890,6 +12890,10 @@ PrefabInstance:
     - target: {fileID: 248584620145791626, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
       propertyPath: specialAttackCooldown
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3944691684829389279, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
+      propertyPath: _Animations.Array.size
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4118714578509306157, guid: fac6f5feee687e1418b608e85bafa252, type: 3}
       propertyPath: m_LocalScale.x

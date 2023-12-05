@@ -10,7 +10,7 @@ public class FighterController : MonoBehaviour
     private InputAction _lightAttackInputAction;
     private InputAction _heavyAttackInputAction;
     private InputAction _specialAttackInputAction;
-    private InputAction _jumpInputAction;
+    [HideInInspector] public InputAction jumpInputAction;
     [HideInInspector] public InputAction blockInputAction;
     private InputActionMap _playerActionMap;
 
@@ -54,9 +54,8 @@ public class FighterController : MonoBehaviour
         _specialAttackInputAction.started += _fighter.SpecialAttack;
         _specialAttackInputAction.Enable();
 
-        _jumpInputAction = _playerActionMap.actions[5];
-        _jumpInputAction.started += _fighter.Jump;
-        _jumpInputAction.Enable();
+        jumpInputAction = _playerActionMap.actions[5];
+        jumpInputAction.Enable();
     }
 
     private void OnDisable()

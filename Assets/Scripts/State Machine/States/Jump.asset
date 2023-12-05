@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6045b51117c80144b7342498f4b9b15, type: 3}
-  m_Name: Idle
+  m_Script: {fileID: 11500000, guid: 35024256be196c24692032910c510875, type: 3}
+  m_Name: Jump
   m_EditorClassIdentifier: 
-  _idleAnimationClip: {fileID: 7400000, guid: 8e5ce486ba04b6f4db7fcfeceb5e45d5, type: 2}
+  actions:
+  - {fileID: 11400000, guid: 3dbbe2f7cb8185c469b0080d1c068a93, type: 2}
+  transitions: []

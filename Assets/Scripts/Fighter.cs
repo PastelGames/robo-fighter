@@ -34,13 +34,13 @@ public class Fighter : StateController
     [HideInInspector] public bool newIsFacingLeft;
     [HideInInspector] public bool isFacingLeft;
 
-    public HitData currentHitData;
-    public AttackData currentAttackData;
+    [HideInInspector] public HitData currentHitData;
+    [HideInInspector] public AttackData currentAttackData;
 
-    public AttackData currentHurtAttackData;
+    [HideInInspector] public AttackData currentHurtAttackData;
 
     public Queue<AnimationClip> animationQ;
-    public AnimationClip currentAnimation;
+    [HideInInspector] public AnimationClip currentAnimation;
 
     public State lightAttackState;
     public State heavyAttackState;
@@ -63,6 +63,8 @@ public class Fighter : StateController
     public float specialAttackCooldownRemaining = 0;
 
     public float specialAttackCooldownDuration;
+
+    [HideInInspector] public bool isGrounded;
 
     public GameObject hurtParticles;
     public GameObject heavyHurtParticles;
@@ -197,7 +199,6 @@ public class Fighter : StateController
             {
                 OnHitWhileBlocking();
                 StartCoroutine(HitStopCoroutine(hitData.hitStop / 3, hitData.pushBack));
-
             }
             else
             {
@@ -278,11 +279,6 @@ public class Fighter : StateController
         AddToAttackQueue(heavyAttackData);
     }
 
-    public void Jump(InputAction.CallbackContext obj)
-    {
-        
-    }
-
     public void ClearAttackQ()
     {
         attackQ.Clear();
@@ -347,6 +343,7 @@ public class Fighter : StateController
         return attackQ.Count > 0;
     }
 
+
     void Face()
     {
         if (newIsFacingLeft != isFacingLeft)
@@ -372,6 +369,14 @@ public class Fighter : StateController
         else
         {
             newIsFacingLeft = true;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Ground"))
+        {
+            isGrounded = true;
         }
     }
 }
