@@ -123,6 +123,8 @@ public class AttackAction : Action
 
         fighter.ExitActiveFrames();
         fighter.hitOtherPlayer = false;
+
+        fighter.SetFacing();
     }
 
     private static void ClearAttackString(Fighter fighter)
