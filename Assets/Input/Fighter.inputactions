@@ -44,6 +44,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "1129f2e7-08f4-4c5a-8189-8fe6b38e081a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -160,7 +168,7 @@
                 {
                     "name": "",
                     "id": "71d23fa7-84d4-4c9a-b55b-e6fbf4269676",
-                    "path": "<Keyboard>/w",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -187,6 +195,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Special Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "42a0214f-3a59-42d2-ae15-4e289370542a",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -232,6 +251,14 @@
                     "name": "Special Attack",
                     "type": "Button",
                     "id": "468c6233-f453-4559-9bfa-570031584945",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "4b2980c1-98c3-4c40-8a25-97679f732c4a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -296,7 +323,7 @@
                 {
                     "name": "",
                     "id": "abd2a535-b320-4ffb-a05f-336dd3ee0b99",
-                    "path": "<Keyboard>/i",
+                    "path": "<Keyboard>/h",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -312,6 +339,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Special Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "096784d8-f0c4-40dd-a603-67258da95fe9",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -9,6 +9,9 @@ public class Fighter : StateController
 {
     public Fighter otherFighter;
 
+    private float _directionSwitchTimer = 0f;
+    [SerializeField] private float _directionSwitchDelay = 1.5f;
+
     public float movementSpeed;
     public float forwardMoveSpeedMultiplier;
 
@@ -31,16 +34,15 @@ public class Fighter : StateController
 
     public int maxAttackStringLength = 3;
 
-    [HideInInspector] public bool newIsFacingLeft;
     [HideInInspector] public bool isFacingLeft;
 
-    public HitData currentHitData;
-    public AttackData currentAttackData;
+    [HideInInspector] public HitData currentHitData;
+    [HideInInspector] public AttackData currentAttackData;
 
-    public AttackData currentHurtAttackData;
+    [HideInInspector] public AttackData currentHurtAttackData;
 
     public Queue<AnimationClip> animationQ;
-    public AnimationClip currentAnimation;
+    [HideInInspector] public AnimationClip currentAnimation;
 
     public State lightAttackState;
     public State heavyAttackState;
@@ -49,6 +51,7 @@ public class Fighter : StateController
     public State blockingState;
     public State blockHitReactState;
     public State hurtState;
+    public State jumpState;
 
     public bool hitOtherPlayer;
 
@@ -63,6 +66,8 @@ public class Fighter : StateController
     public float specialAttackCooldownRemaining = 0;
 
     public float specialAttackCooldownDuration;
+
+    [HideInInspector] public bool isGrounded;
 
     public GameObject hurtParticles;
     public GameObject heavyHurtParticles;
@@ -101,8 +106,7 @@ public class Fighter : StateController
             takqstring += attackData.name + "\n";
         }
         takqtext.text = takqstring;
-        SetFacing();
-        Face();
+        SetFacingDelay();
         DecrementCooldown();
     }
 
@@ -197,7 +201,6 @@ public class Fighter : StateController
             {
                 OnHitWhileBlocking();
                 StartCoroutine(HitStopCoroutine(hitData.hitStop / 3, hitData.pushBack));
-
             }
             else
             {
@@ -342,31 +345,68 @@ public class Fighter : StateController
         return attackQ.Count > 0;
     }
 
-    void Face()
-    {
-        if (newIsFacingLeft != isFacingLeft)
-        {
-            if (newIsFacingLeft)
-            {
-                transform.rotation = Quaternion.Euler(new Vector3(0, -180, 0));
-            }
-            else
-            {
-                transform.rotation = Quaternion.Euler(Vector3.zero);
-            }
-        }
-        isFacingLeft = newIsFacingLeft;
-    }
-
-    void SetFacing()
+    public void SetFacing()
     {
         if (transform.position.x < otherFighter.transform.position.x)
         {
-            newIsFacingLeft = false;
+            transform.rotation = Quaternion.Euler(Vector3.zero);
+            isFacingLeft = false;
         }
         else
         {
-            newIsFacingLeft = true;
+            transform.rotation = Quaternion.Euler(new Vector3(0, -180, 0));
+            isFacingLeft = true;
+        }
+    }
+
+    void SetFacingDelay()
+    {
+        if (currentState != jumpState 
+            && currentState != heavyAttackState
+            && currentState != lightAttackState)
+        {
+            if (transform.position.x < otherFighter.transform.position.x)
+            {
+                if (isFacingLeft)
+                {
+                    _directionSwitchTimer += Time.deltaTime;
+                    if (_directionSwitchTimer >= _directionSwitchDelay)
+                    {
+                        transform.rotation = Quaternion.Euler(Vector3.zero);
+                        isFacingLeft = false;
+                        _directionSwitchTimer = 0f;
+                    }
+                }
+                else
+                {
+                    _directionSwitchTimer = 0f;
+                }
+            }
+            else
+            {
+                if (!isFacingLeft)
+                {
+                    _directionSwitchTimer += Time.deltaTime;
+                    if (_directionSwitchTimer >= _directionSwitchDelay)
+                    {
+                        transform.rotation = Quaternion.Euler(new Vector3(0, -180, 0));
+                        isFacingLeft = true;
+                        _directionSwitchTimer = 0f;
+                    }
+                }
+                else
+                {
+                    _directionSwitchTimer = 0f;
+                }
+            }
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag.Equals("Ground"))
+        {
+            isGrounded = true;
         }
     }
 }
