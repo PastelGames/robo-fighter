@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: Jump Action
   m_EditorClassIdentifier: 
   _jumpInitialUpVelocity: 12
-  _jumpAnimationClip: {fileID: 7400000, guid: a97f7dfd14796794cadcfc11ce376986, type: 2}
-  jumpFrames: 127
+  _jumpAnimationClip: {fileID: 7400000, guid: 5bae9fa822ea85c4294fa97f2f8a4928, type: 2}
