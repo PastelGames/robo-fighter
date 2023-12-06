@@ -9,17 +9,20 @@ public class JumpAction : Action
     private float _horizontalVelocity;
     private Rigidbody2D _rb;
     private Fighter _fighter;
+    public float jumpFrames;
 
     public override void Act(StateController controller)
     {
         _rb.velocity = new Vector2(_horizontalVelocity, _rb.velocity.y);
         _fighter = controller as Fighter;
         if (_fighter.isGrounded) controller.TransitionToState(controller.previousState);
+        jumpFrames++;
     }
 
     public override void EndAct(StateController controller)
     {
         _fighter.SetFacing();
+        Debug.Log(jumpFrames);
     }
 
     public override void StartAct(StateController controller)
@@ -39,5 +42,6 @@ public class JumpAction : Action
         ac.Play(_jumpAnimationClip).Time = 0;
         _fighter = controller as Fighter;
         _fighter.isGrounded = false;
+        jumpFrames = 0;
     }
 }
